@@ -15,15 +15,27 @@
 </head>
 <body>
 
-    <!-- URL Aplikasi GAS Anda -->
-    <iframe src="https://script.google.com/macros/s/AKfycbzCRuSiLElA8pjV9sMR08f2nEsth48MsnUJGUZaEwQw_9syJZJ26qwOJ8djqUPUWJ0Png/exec"></iframe>
+    <!-- Iframe akan memuat tautan secara dinamis lewat JavaScript di bawah -->
+    <iframe id="ppobApp" src=""></iframe>
 
     <script>
-        // Mendaftarkan File Service Worker Resmi
+        // URL utama Google Apps Script PPOB Anda
+        const baseGasUrl = "https://script.google.com/macros/s/AKfycbzCRuSiLElA8pjV9sMR08f2nEsth48MsnUJGUZaEwQw_9syJZJ26qwOJ8djqUPUWJ0Png/exec";
+
+        // Ambil parameter ekor dari URL luar (jika ada, contoh: ?page=dashboard&user=aksa)
+        const urlParams = window.location.search;
+
+        // Gabungkan secara otomatis agar link tetap sinkron
+        const finalGasUrl = urlParams ? baseGasUrl + urlParams : baseGasUrl;
+
+        // Tembakkan tautan ke dalam iframe
+        document.getElementById('ppobApp').src = finalGasUrl;
+
+        // Pendaftaran Service Worker PWA agar aplikasi terdeteksi di Android
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
-            .then(() => console.log("Service Worker Terdaftar!"))
-            .catch(err => console.log("Gagal:", err));
+            .then(() => console.log("PWA PPOB Siap!"))
+            .catch(err => console.log("SW Gagal:", err));
         }
     </script>
 </body>
